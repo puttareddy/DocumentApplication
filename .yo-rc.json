@@ -1,0 +1,38 @@
+{
+    "generator-jhipster": {
+        "promptValues": {
+            "packageName": "com.abc.docs",
+            "nativeLanguage": "en"
+        },
+        "jhipsterVersion": "5.8.1",
+        "applicationType": "monolith",
+        "baseName": "DocumentApplication",
+        "packageName": "com.abc.docs",
+        "packageFolder": "com/abc/docs",
+        "serverPort": "8080",
+        "authenticationType": "jwt",
+        "cacheProvider": "ehcache",
+        "enableHibernateCache": false,
+        "websocket": false,
+        "databaseType": "sql",
+        "devDatabaseType": "h2Disk",
+        "prodDatabaseType": "mysql",
+        "searchEngine": false,
+        "messageBroker": false,
+        "serviceDiscoveryType": false,
+        "buildTool": "maven",
+        "enableSwaggerCodegen": false,
+        "jwtSecretKey": "MjE1ZDljYThhOWMzZTc5YzhiYzViMmM2Nzk0MGI3Njc1NjkxZGMzZTI3MmQwZjQxZTk3ODVkMmZhOWI5OTdhYmY3ZWEyNjY0M2VmMjFhMGMzMzZjNjk1OTIyOTAzOGExYzBmYWI0ODIzYWNmMGZkN2M5NWNhOTk5MDBlMDVmM2Y=",
+        "clientFramework": "angularX",
+        "useSass": false,
+        "clientPackageManager": "npm",
+        "testFrameworks": [],
+        "jhiPrefix": "jhi",
+        "entitySuffix": "",
+        "dtoSuffix": "DTO",
+        "otherModules": [],
+        "enableTranslation": true,
+        "nativeLanguage": "en",
+        "languages": ["en"]
+    }
+}
