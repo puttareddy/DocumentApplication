@@ -60,6 +60,10 @@ management:
                 auto-time-requests: true
 
 spring:
+    servlet:
+      multipart:
+        enabled: true
+        max-file-size: 128MB
     application:
         name: DocumentApplication
     profiles:
@@ -89,7 +93,10 @@ server:
         session:
             cookie:
                 http-only: true
-
+    compression:
+        enabled: true
+        min-response-size: 1024
+   
 # Properties to be exposed on the /info management endpoint
 info:
     # Comma separated list of profiles that will trigger the ribbon to show
