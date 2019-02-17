@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -118,7 +119,7 @@ public class ProductResource {
               dto.setDescription(part[2]);
               dto.setColor(part[3]);
               dto.setCategory(part[4]);
-              dto.setPrice(Float.valueOf(part[5]));
+              dto.setPrice(new BigDecimal(part[5]));
               dto.setImageUrl(part[6]);
               productDTOs.add(dto);
               

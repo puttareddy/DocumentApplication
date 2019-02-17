@@ -1,5 +1,6 @@
 package com.abc.docs.service.dto;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 import javax.validation.constraints.NotNull;
@@ -21,7 +22,7 @@ public class ProductDTO {
     @Size(max = 50)
     private String description;
 
-    private float price;
+    private BigDecimal price;
     
 	private String category;
     
@@ -80,7 +81,6 @@ public class ProductDTO {
 		result = prime * result + ((lastModifiedBy == null) ? 0 : lastModifiedBy.hashCode());
 		result = prime * result + ((lastModifiedDate == null) ? 0 : lastModifiedDate.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + Float.floatToIntBits(price);
 		return result;
 	}
 
@@ -143,8 +143,6 @@ public class ProductDTO {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (Float.floatToIntBits(price) != Float.floatToIntBits(other.price))
-			return false;
 		return true;
 	}
 
@@ -172,11 +170,13 @@ public class ProductDTO {
 		this.description = description;
 	}
 
-	public float getPrice() {
+	
+
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(float price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 

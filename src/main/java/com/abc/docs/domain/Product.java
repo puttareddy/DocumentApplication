@@ -1,6 +1,7 @@
 package com.abc.docs.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -38,7 +39,7 @@ public class Product extends AbstractAuditingEntity implements Serializable {
     private String description;
 
     @Column(precision=10, scale=2)
-    private float rate;
+    private BigDecimal rate;
     
 //    @ManyToOne
 //	@JoinColumn(name = "id_category")
@@ -78,16 +79,15 @@ public class Product extends AbstractAuditingEntity implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public float getRate() {
+	
+	
+	public BigDecimal getRate() {
 		return rate;
 	}
 
-	public void setRate(float rate) {
+	public void setRate(BigDecimal rate) {
 		this.rate = rate;
 	}
-
-	
 
 	public String getCategory() {
 		return category;
