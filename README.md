@@ -159,6 +159,10 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 
 To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
 
+## Upload Products CSV Sequence
+
+![picture alt](./Upload_Products_CSV_Sequence.png)
+
 [jhipster homepage and latest documentation]: https://www.jhipster.tech
 [jhipster 5.8.1 archive]: https://www.jhipster.tech/documentation-archive/v5.8.1
 [using jhipster in development]: https://www.jhipster.tech/documentation-archive/v5.8.1/development/
