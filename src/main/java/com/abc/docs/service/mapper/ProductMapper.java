@@ -19,7 +19,7 @@ import com.abc.docs.service.dto.ProductDTO;
 @Service
 public class ProductMapper {
 
-    public List<ProductDTO> ProductsToProductDTOs(List<Product> products) {
+    public List<ProductDTO> productsToProductDTOs(List<Product> products) {
         return products.stream()
             .filter(Objects::nonNull)
             .map(this::productToProductDTO)
@@ -30,14 +30,14 @@ public class ProductMapper {
         return new ProductDTO(product);
     }
 
-    public List<Product> ProductDTOsToProducts(List<ProductDTO> ProductDTOs) {
+    public List<Product> productDTOsToProducts(List<ProductDTO> ProductDTOs) {
         return ProductDTOs.stream()
             .filter(Objects::nonNull)
-            .map(this::ProductDTOToProduct)
+            .map(this::productDTOToProduct)
             .collect(Collectors.toList());
     }
 
-    public Product ProductDTOToProduct(ProductDTO productDTO) {
+    public Product productDTOToProduct(ProductDTO productDTO) {
         if (productDTO == null) {
             return null;
         } else {
@@ -54,7 +54,7 @@ public class ProductMapper {
     }
 
 
-    public Product ProductFromId(Long id) {
+    public Product productFromId(Long id) {
         if (id == null) {
             return null;
         }
