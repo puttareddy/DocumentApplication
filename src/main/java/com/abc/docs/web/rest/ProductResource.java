@@ -21,7 +21,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,15 +32,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.abc.docs.config.Constants;
+import com.abc.docs.security.AuthoritiesConstants;
 import com.abc.docs.security.SecurityUtils;
 import com.abc.docs.service.MailService;
 import com.abc.docs.service.ProductService;
 import com.abc.docs.service.dto.ProductDTO;
 import com.abc.docs.web.rest.errors.EmailAlreadyUsedException;
 import com.abc.docs.web.rest.errors.InternalServerErrorException;
+import com.abc.docs.web.rest.util.HeaderUtil;
 
 /**
- * REST controller for managing the current user's account.
+ * REST controller for managing products.
  */
 @RestController
 @RequestMapping("/api")
@@ -56,13 +62,12 @@ public class ProductResource {
 	}
 
 	/**
-	 * POST /account : update the current user information.
+	 * POST /products : Upload the products information using JSON format.
 	 *
-	 * @param userDTO the current user information
+	 * @param List<ProductDTO>, array of ProductDTO objects
 	 * @throws EmailAlreadyUsedException 400 (Bad Request) if the email is already
 	 *                                   used
-	 * @throws RuntimeException          500 (Internal Server Error) if the user
-	 *                                   login wasn't found
+	 * @throws RuntimeException          500 (Internal Server Error) if any errors, while processing request
 	 */
 	@PostMapping("/products")
 	public ResponseEntity<?> saveProducts(@Valid @RequestBody List<ProductDTO> productDTOs) {
@@ -76,11 +81,11 @@ public class ProductResource {
 	}
 
 	/**
-     * POST  /account : update the current user information.
+     * POST  /upload-products : Upload a Products, which are in CSV file .
      *
-     * @param userDTO the current user information
+     * @param file, all products information
      * @throws EmailAlreadyUsedException 400 (Bad Request) if the email is already used
-     * @throws RuntimeException 500 (Internal Server Error) if the user login wasn't found
+     * @throws RuntimeException 500 (Internal Server Error) if any errors, while processing CSV file
      */
     @PostMapping("/upload-products")
     public ResponseEntity<?> uploadProducts(@Valid  @RequestParam("file") MultipartFile file) {
@@ -146,16 +151,42 @@ public class ProductResource {
     }
 
 	/**
-	 * GET /users : get all users.
+	 * GET /users : get all Products.
 	 *
-	 * @param pageable the pagination information
-	 * @return the ResponseEntity with status 200 (OK) and with body all users
+	 * @return the ResponseEntity with status 200 (OK) and with body all products
 	 */
 	@GetMapping("/products")
-	public ResponseEntity<List<ProductDTO>> getAllUsers(Pageable pageable) {
+	public ResponseEntity<List<ProductDTO>> getAllUsers() {
 		final List<ProductDTO> page = productService.getAllProducts();
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("X-Total-Count", Long.toString(page.size()));
 		return new ResponseEntity<>(page, headers, HttpStatus.OK);
+	}
+	
+	 /**
+     * DELETE /users/:code : delete a Product based on "code".
+     *
+     * @param code the code of the user to delete
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @DeleteMapping("/products/{code}")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	public ResponseEntity<Void> deleteProduct(@PathVariable Long code) {
+    	log.debug("REST request to delete product: {}", code);
+        productService.deleteByCode(code);
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert( "product.deleted", String.valueOf(code))).build();
+	}
+    
+    /**
+     * DELETE /users : delete all Products.
+     *
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @DeleteMapping("/products")
+	public ResponseEntity<Void> deleteAllProducts() {
+    	log.debug("REST request to delete all Products");
+    	final List<ProductDTO> page = productService.getAllProducts();
+        productService.deleteAll();
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert( "products.deleted", String.valueOf(page.size()))).build();
 	}
 }

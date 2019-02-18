@@ -1,0 +1,26 @@
+title Products upload CSV Sequence
+
+UI/Postman->User-JWT-Controller: Authentication Request \n(/api/authenticate)
+User-JWT-Controller --> UI/Postman: JWT token
+UI/Postman -> Product Resource: Upload CSV file \n (/api/upload-products)
+Product Resource -> Product Resource: Convert CSV file to DTOs
+alt Error processing CSV file
+note left of Product Resource
+    Error Response will be sent, if any error\n happens while processing the CSV file  
+end note
+Product Resource --> UI/Postman: Error reponse (with exception)
+else continue, if no errors
+Product Resource -> Product Service: Create Products based on DTOs
+Product Service -> Products Mapper: Convert Product DTOs \n to Product Domain objects
+note right of Products Mapper
+    Mappers are needed to decouble the\n Front-end (controller layer) vs Back-end (Database) layers  
+end note
+Products Mapper --> Product Service: Converted Product Domain objects
+Product Service -> Products Repository: Save all domain objects 
+note right of Products Repository
+    Save the Product objects to table based \non the SpringBoot Out-of-Box \nJpaRepository implementation
+end note
+Products Repository --> Product Service: Saved records count
+Product Service --> Product Resource : Saved records count
+Product Resource --> UI/Postman: Consutruct and Send the response \n count will be sent in X-Total-Count header
+end
